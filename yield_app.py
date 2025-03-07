@@ -14,7 +14,7 @@ st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
 
 # App Title
 st.title("🌱 Crop Yield Prediction")
-st.write("Enter farming details to predict crop yield.")
+st.write("This model predicts the yield for Cotton, Wheat, Barley, Soyabean, and Rice. Enter farming details below to get an estimate.")
 
 # User Inputs
 col1, col2 = st.columns(2)
