@@ -13,7 +13,7 @@ def load_model():
 model = load_model()
 
 # Mappings
-crop_mapping = {"Barley": 0, "Cotton": 1, "Rice": 3, "Soyabean": 4, "Wheat": 5}
+crop_mapping = {"Barley": 0, "Cotton": 1, "Maize": 2, "Rice": 3, "Soyabean": 4, "Wheat": 5}
 boolean_mapping = {False: 0, True: 1}
 soil_type_mapping = {"Sandy": 4, "Clay": 1, "Loam": 2, "Silt": 5, "Peaty": 3, "Chalky": 6}
 weather_mapping = {"Cloudy": 0, "Rainy": 1, "Sunny": 2}
@@ -49,6 +49,11 @@ irrigation_used = boolean_mapping[irrigation_used]
 
 # Predict Button
 if st.button('🚜 Predict Yield'):
+    # Create a numpy array with the input features
     features = np.array([[region, soil_type, crop, rainfall, temperature, fertilizer_used, irrigation_used, weather_condition, days_to_harvest]])
+    
+    # Make prediction
     prediction = model.predict(features)
+    
+    # Display the result
     st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
