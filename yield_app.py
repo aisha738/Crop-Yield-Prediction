@@ -2,15 +2,15 @@ import streamlit as st
 import pickle
 import numpy as np
 
+# Page Config (must be the first Streamlit command)
+st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
+
 # Load Model
 @st.cache_resource
 def load_model():
     return pickle.load(open('crop_yield_pred.pkl', 'rb'))
 
 model = load_model()
-
-# Page Config
-st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
 
 # App Title
 st.title("🌱 Crop Yield Prediction")
@@ -41,3 +41,4 @@ if st.button('🚜 Predict Yield'):
     features = np.array([[region, soil_type, crop, rainfall, temperature, fertilizer_used, irrigation_used, weather_condition, days_to_harvest]])
     prediction = model.predict(features)
     st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
+
