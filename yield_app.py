@@ -1,7 +1,6 @@
 import streamlit as st
 import pickle
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Load Model
 @st.cache_resource
@@ -40,16 +39,3 @@ if st.button('🚜 Predict Yield'):
     features = np.array([[rainfall, temperature, fertilizer_used, irrigation_used, days_to_harvest]])
     prediction = model.predict(features)
     st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
-
-    # Example average yield
-    average_yield = 4.65  
-
-    # Visualization: Predicted vs. Average Yield
-    fig, ax = plt.subplots()
-    bars = ax.bar(["Predicted Yield", "Average Yield"], [prediction[0], average_yield], color=["#4CAF50", "#FFC107"])
-    ax.set_ylabel("Yield (tons/ha)")
-    ax.set_title("Predicted vs. Average Yield")
-    for bar in bars:
-        yval = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2, yval, f"{yval:.2f}", ha="center", va="bottom")
-    st.pyplot(fig)
