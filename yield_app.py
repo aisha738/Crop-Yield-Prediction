@@ -33,14 +33,20 @@ st.markdown('<p class="description">Predict your crop yield based on key farming
 # 📊 User Inputs
 st.subheader("Input Parameters Below:")
 
-col1, col2 = st.columns(2)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    rainfall = st.number_input('🌧️ Rainfall (mm)', value=100.00, step=0.1, help="Amount of rainfall in millimeters")
-    temperature = st.number_input('🌡️ Temperature (°C)', value=27.00, step=0.1, help="Average temperature in degrees Celsius")
-    days_to_harvest = st.number_input('📅 Days to Harvest', value=100, step=1, help="Number of days before harvest")
+    region = st.selectbox("📍 Region", ["North", "South", "East", "West"], help="Select the region of your farm")
 
 with col2:
+    crop = st.selectbox("🌾 Crop Type", ["Cotton", "Wheat", "Barley", "Soyabean", "Rice"], help="Select the type of crop")
+
+with col3:
+    rainfall = st.number_input('🌧️ Rainfall (mm)', value=100.00, step=0.1, help="Amount of rainfall in millimeters")
+    temperature = st.number_input('🌡️ Temperature (°C)', value=27.00, step=0.1, help="Average temperature in degrees Celsius")
+
+with col4:
+    days_to_harvest = st.number_input('📅 Days to Harvest', value=100, step=1, help="Number of days before harvest")
     fertilizer_used = st.radio('🧪 Fertilizer Used?', ('Yes', 'No'), help="Select whether fertilizer was applied")
     irrigation_used = st.radio('🚰 Irrigation Used?', ('Yes', 'No'), help="Select whether irrigation was applied")
 
