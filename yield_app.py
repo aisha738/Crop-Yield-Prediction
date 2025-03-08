@@ -22,7 +22,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Subtitle
-st.subheader("Enter")
+st.subheader("Enter Parameters Below")
 
 # User Input Form
 region = st.selectbox("📍 Region", list(region_mapping.keys()))
@@ -42,26 +42,17 @@ features = np.array([[region_mapping[region], soil_type_mapping[soil_type], crop
                       days_to_harvest]])
 
 # Centered & Styled Predict Button
-st.markdown("""
-    <div style='text-align: center;'>
-        <button style="
-            background-color: #4CAF50; 
-            color: white; 
-            font-size: 18px; 
-            padding: 12px 30px; 
-            border: none; 
+st.markdown(
+    """
+    <style>
+        .stButton > button {
+            display: block;
+            margin: 0 auto;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            padding: 12px 30px;
+            border: none;
             border-radius: 5px;
-            cursor: pointer;"
-            onclick="predict()">
-            🚜 Predict Yield
-        </button>
-    </div>
-""", unsafe_allow_html=True)
+            cu
 
-# Prediction Function
-if st.button(" "):  # Invisible button to trigger the function
-    try:
-        prediction = model.predict(features)
-        st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
-    except Exception as e:
-        st.error(f"Error: {e}")
