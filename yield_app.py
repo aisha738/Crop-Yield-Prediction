@@ -36,4 +36,14 @@ temperature = st.number_input('🌡️ Temperature (°C)', value=27.0, step=0.1)
 fertilizer_used = st.selectbox('🧪 Fertilizer Used?', ["Yes", "No"])
 irrigation_used = st.selectbox('🚰 Irrigation Used?', ["Yes", "No"])
 weather_condition = st.selectbox("⛅ Weather Condition", list(weather_mapping.keys()))
-days_to_harvest = st.number_input('📅 Days to H
+days_to_harvest = st.number_input('📅 Days to Harvest', value=100, step=1)  # ✅ Fixed string
+
+# Convert categorical inputs to numeric
+features = np.array([[region_mapping[region], soil_type_mapping[soil_type], crop_mapping[crop],
+                      rainfall, temperature, 1 if fertilizer_used == "Yes" else 0,
+                      1 if irrigation_used == "Yes" else 0, weather_mapping[weather_condition],
+                      days_to_harvest]])
+
+# Styled Predict Button (Green & Centered)
+st
+
