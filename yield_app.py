@@ -22,7 +22,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Subtitle
-st.subheader("Enter Parameters Below")
+st.subheader("Enter")
 
 # User Input Form
 region = st.selectbox("📍 Region", list(region_mapping.keys()))
@@ -36,20 +36,36 @@ weather_condition = st.selectbox("⛅ Weather Condition", list(weather_mapping.k
 days_to_harvest = st.number_input('📅 Days to Harvest', value=100, step=1)
 
 # Convert categorical inputs to numeric
-features = np.array([[
-    region_mapping[region], soil_type_mapping[soil_type], crop_mapping[crop],
-    rainfall, temperature, 1 if fertilizer_used == "Yes" else 0,
-    1 if irrigation_used == "Yes" else 0, weather_mapping[weather_condition],
-    days_to_harvest
-]])
+features = np.array([[region_mapping[region], soil_type_mapping[soil_type], crop_mapping[crop],
+                      rainfall, temperature, 1 if fertilizer_used == "Yes" else 0,
+                      1 if irrigation_used == "Yes" else 0, weather_mapping[weather_condition],
+                      days_to_harvest]])
 
-# Centered Predict Button
-st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-predict_button = st.button('🚜 Predict Yield', key="predict", help="Click to estimate crop yield")
-st.markdown("</div>", unsafe_allow_html=True)
+# Centered & Larger Predict Button
+st.markdown("""
+    <style>
+        .centered-button {
+            display: flex;
+            justify-content: center;
+        }
+        .big-button button {
+            width: 200px;
+            height: 50px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+    <div class='centered-button'>
+        <div class='big-button'>
+            <form action="#">
+                <input type="submit" value="🚜 Predict Yield" style="width: 200px; height: 50px; font-size: 18px; font-weight: bold;">
+            </form>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 # Prediction
-if predict_button:
+if st.button("🚜 Predict Yield", key="predict", help="Click to estimate crop yield"):
     try:
         prediction = model.predict(features)
         st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
