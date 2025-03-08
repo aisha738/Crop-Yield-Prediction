@@ -21,13 +21,15 @@ st.markdown(
         .main-title { 
             color: #4CAF50; 
             text-align: center; 
-            font-size: 48px; 
+            font-size: 60px; /* Biggest Font Size */
             font-weight: bold; 
+            margin-bottom: 10px;
         }
         .description {
             text-align: center;
-            font-size: 20px;
+            font-size: 22px;
             color: #666;
+            margin-bottom: 20px;
         }
         .stButton>button {
             display: block;
@@ -38,7 +40,7 @@ st.markdown(
             background-color: #4CAF50;
             color: white;
             border-radius: 8px;
-            padding: 10px;
+            padding: 12px;
         }
         .footer {
             text-align: center;
@@ -51,7 +53,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🌱 App Title
+# 🌱 App Title (Biggest Font Size)
 st.markdown('<p class="main-title">🌱 Crop Yield Prediction App</p>', unsafe_allow_html=True)
 st.markdown('<p class="description">Predict your crop yield based on key farming factors</p>', unsafe_allow_html=True)
 
