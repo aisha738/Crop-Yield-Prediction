@@ -15,10 +15,14 @@ weather_mapping = {"Sunny": 0, "Rainy": 1, "Cloudy": 2}
 # Page Config
 st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
 
-# App Title
-st.markdown("<h1 style='text-align: center; color: #4CAF50; font-size: 60px;'>🌱 Crop Yield Prediction</h1>", unsafe_allow_html=True)
+# App Title & Subtitle
+st.markdown("""
+    <h1 style='text-align: center; color: #4CAF50; font-size: 60px;'>🌱 Crop Yield Prediction</h1>
+    <h4 style='text-align: center; color: #666;'>This app helps you predict the yield for Cotton, Wheat, Barley, Soyabean, and Rice.</h4>
+""", unsafe_allow_html=True)
 
-st.subheader("Enter Input Parameters Below:")
+# Subtitle
+st.subheader("Enter Parameters Below")
 
 # User Input Form
 region = st.selectbox("📍 Region", list(region_mapping.keys()))
@@ -39,8 +43,13 @@ features = np.array([[
     days_to_harvest
 ]])
 
-# Predict Button
-if st.button('🚜 Predict Yield'):
+# Centered Predict Button
+st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+predict_button = st.button('🚜 Predict Yield', key="predict", help="Click to estimate crop yield")
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Prediction
+if predict_button:
     try:
         prediction = model.predict(features)
         st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
