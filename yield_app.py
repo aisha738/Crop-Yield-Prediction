@@ -5,27 +5,47 @@ import numpy as np
 # Load Model
 model = pickle.load(open('crop_yield_pred.pkl', 'rb'))
 
-# Encoding Mapping (Use the same encoding as used in training)
+# Encoding Mapping
 region_mapping = {"North": 0, "South": 1, "East": 2, "West": 3}
 soil_type_mapping = {"Sandy": 0, "Loam": 1, "Chalky": 2, "Silt": 3, "Peaty": 4}
 crop_mapping = {"Cotton": 0, "Wheat": 1, "Barley": 2, "Soyabean": 3, "Rice": 4}
 weather_mapping = {"Sunny": 0, "Rainy": 1, "Cloudy": 2}
 
 # Page Config
-st.set_page_config(
-    page_title="Crop Yield Prediction",
-    layout="centered",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
 
 # Custom Styling
 st.markdown(
     """
     <style>
-        .stApp { background-color: #ffffff; }
-        .main-title { color: #4CAF50; text-align: center; font-size: 32px; font-weight: bold; }
-        .description { text-align: center; font-size: 18px; color: #666; }
-        .footer { text-align: center; font-size: 14px; color: #999; }
+        .main-title { 
+            color: #4CAF50; 
+            text-align: center; 
+            font-size: 48px; 
+            font-weight: bold; 
+        }
+        .description {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+        }
+        .stButton>button {
+            display: block;
+            margin: 0 auto;
+            width: 220px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            margin-top: 20px;
+        }
     </style>
     """,
     unsafe_allow_html=True
@@ -53,7 +73,7 @@ with col2:
     weather_condition = st.selectbox("⛅ Weather Condition", options=list(weather_mapping.keys()), help="Select the general weather condition")
     days_to_harvest = st.number_input('📅 Days to Harvest', value=100, step=1, help="Number of days before harvest")
 
-# Convert categorical inputs to numeric using mappings
+# Convert categorical inputs to numeric
 region_encoded = region_mapping[region]
 soil_type_encoded = soil_type_mapping[soil_type]
 crop_encoded = crop_mapping[crop]
@@ -64,12 +84,11 @@ irrigation_encoded = 1 if irrigation_used == "Yes" else 0
 # Convert inputs to a NumPy array
 features = np.array([[region_encoded, soil_type_encoded, crop_encoded, rainfall, temperature, fertilizer_encoded, irrigation_encoded, weather_encoded, days_to_harvest]])
 
-# 🚜 Predict Button
+# 🚜 Centered Predict Button
 if st.button('🚜 Predict Yield'):
     try:
         prediction = model.predict(features)
         st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
-
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
