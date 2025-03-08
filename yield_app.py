@@ -3,7 +3,7 @@ import numpy as np
 import joblib
 
 # Load Model Using joblib
-with open("crop_yield_pred.joblib", "rb") as file:
+with open("crop_yield.joblib", "rb") as file:
     model = joblib.load(file)
 
 # Encoding Mapping
