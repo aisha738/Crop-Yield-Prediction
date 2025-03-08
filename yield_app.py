@@ -41,13 +41,25 @@ features = np.array([[region_mapping[region], soil_type_mapping[soil_type], crop
                       1 if irrigation_used == "Yes" else 0, weather_mapping[weather_condition],
                       days_to_harvest]])
 
-# Centered & Bigger Predict Button
-st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-predict = st.button('🚜 Predict Yield', key="predict", help="Click to estimate crop yield", use_container_width=True)
-st.markdown("</div>", unsafe_allow_html=True)
+# Centered & Styled Predict Button
+st.markdown("""
+    <div style='text-align: center;'>
+        <button style="
+            background-color: #4CAF50; 
+            color: white; 
+            font-size: 18px; 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 5px;
+            cursor: pointer;"
+            onclick="predict()">
+            🚜 Predict Yield
+        </button>
+    </div>
+""", unsafe_allow_html=True)
 
-# Prediction
-if predict:
+# Prediction Function
+if st.button(" "):  # Invisible button to trigger the function
     try:
         prediction = model.predict(features)
         st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
