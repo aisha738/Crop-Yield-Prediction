@@ -1,45 +1,77 @@
+import streamlit as st
 import pickle
 import numpy as np
 
 # Load Model
-with open("crop_yield_pred.pkl", "rb") as f:
-    model = pickle.load(f)
+model = pickle.load(open('crop_yield_pred.pkl', 'rb'))
 
-# Mappings for categorical values
-crop_mapping = {"Barley": 0, "Cotton": 1, "Rice": 3, "Soyabean": 4, "Wheat": 5}
-soil_type_mapping = {"Sandy": 4, "Clay": 1, "Loam": 2, "Silt": 5, "Peaty": 3, "Chalky": 6}
-weather_mapping = {"Cloudy": 0, "Rainy": 1, "Sunny": 2}
-region_mapping = {"West": 3, "South": 2, "North": 1, "East": 4}
+# Encoding Mapping (Use the same encoding as used in training)
+region_mapping = {"North": 0, "South": 1, "East": 2, "West": 3}
+soil_type_mapping = {"Sandy": 0, "Loam": 1, "Chalky": 2, "Silt": 3, "Peaty": 4}
+crop_mapping = {"Cotton": 0, "Wheat": 1, "Barley": 2, "Soyabean": 3, "Rice": 4}
+weather_mapping = {"Sunny": 0, "Rainy": 1, "Cloudy": 2}
 
-# User Input
-region = input("Enter Region (West, South, North, East): ").strip()
-soil_type = input("Enter Soil Type (Sandy, Clay, Loam, Silt, Peaty, Chalky): ").strip()
-crop = input("Enter Crop Type (Barley, Cotton, Rice, Soyabean, Wheat): ").strip()
-rainfall = float(input("Enter Rainfall (mm): "))
-temperature = float(input("Enter Temperature (°C): "))
-fertilizer_used = input("Was Fertilizer Used? (yes/no): ").strip().lower() == "yes"
-irrigation_used = input("Was Irrigation Used? (yes/no): ").strip().lower() == "yes"
-weather_condition = input("Enter Weather Condition (Cloudy, Rainy, Sunny): ").strip()
-days_to_harvest = int(input("Enter Days to Harvest: "))
+# Page Config
+st.set_page_config(
+    page_title="Crop Yield Prediction",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 
-# Convert categorical inputs to numerical values
-region = region_mapping.get(region, -1)
-soil_type = soil_type_mapping.get(soil_type, -1)
-crop = crop_mapping.get(crop, -1)
-weather_condition = weather_mapping.get(weather_condition, -1)
-fertilizer_used = int(fertilizer_used)
-irrigation_used = int(irrigation_used)
+# Custom Styling
+st.markdown(
+    """
+    <style>
+        .stApp { background-color: #ffffff; }
+        .main-title { color: #4CAF50; text-align: center; font-size: 32px; font-weight: bold; }
+        .description { text-align: center; font-size: 18px; color: #666; }
+        .footer { text-align: center; font-size: 14px; color: #999; }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-# Ensure valid input
-if -1 in [region, soil_type, crop, weather_condition]:
-    print("🚨 Error: Invalid input detected. Please enter correct values.")
-else:
-    # Prepare features for prediction
-    features = np.array([[region, soil_type, crop, rainfall, temperature, fertilizer_used, irrigation_used, weather_condition, days_to_harvest]])
+# 🌱 App Title
+st.markdown('<p class="main-title">🌱 Crop Yield Prediction App</p>', unsafe_allow_html=True)
+st.markdown('<p class="description">Predict your crop yield based on key farming factors</p>', unsafe_allow_html=True)
 
+# 📊 User Inputs
+st.subheader("Input Parameters Below:")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    region = st.selectbox("📍 Region", options=list(region_mapping.keys()), help="Select the region of cultivation")
+    soil_type = st.selectbox("🌱 Soil Type", options=list(soil_type_mapping.keys()), help="Select the soil type")
+    crop = st.selectbox("🌾 Crop Type", options=list(crop_mapping.keys()), help="Select the crop being cultivated")
+    rainfall = st.number_input('🌧️ Rainfall (mm)', value=100.00, step=0.1, help="Amount of rainfall in millimeters")
+    temperature = st.number_input('🌡️ Temperature (°C)', value=27.00, step=0.1, help="Average temperature in degrees Celsius")
+
+with col2:
+    fertilizer_used = st.selectbox('🧪 Fertilizer Used?', ["Yes", "No"], help="Select whether fertilizer was applied")
+    irrigation_used = st.selectbox('🚰 Irrigation Used?', ["Yes", "No"], help="Select whether irrigation was applied")
+    weather_condition = st.selectbox("⛅ Weather Condition", options=list(weather_mapping.keys()), help="Select the general weather condition")
+    days_to_harvest = st.number_input('📅 Days to Harvest', value=100, step=1, help="Number of days before harvest")
+
+# Convert categorical inputs to numeric using mappings
+region_encoded = region_mapping[region]
+soil_type_encoded = soil_type_mapping[soil_type]
+crop_encoded = crop_mapping[crop]
+weather_encoded = weather_mapping[weather_condition]
+fertilizer_encoded = 1 if fertilizer_used == "Yes" else 0
+irrigation_encoded = 1 if irrigation_used == "Yes" else 0
+
+# Convert inputs to a NumPy array
+features = np.array([[region_encoded, soil_type_encoded, crop_encoded, rainfall, temperature, fertilizer_encoded, irrigation_encoded, weather_encoded, days_to_harvest]])
+
+# 🚜 Predict Button
+if st.button('🚜 Predict Yield'):
     try:
-        # Predict yield
         prediction = model.predict(features)
-        print(f"\n🌾 Estimated Crop Yield: {prediction[0]:.2f} tons/ha")
+        st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
+
     except Exception as e:
-        print(f"🚨 Prediction Error: {str(e)}")
+        st.error(f"An error occurred: {e}")
+
+# 🔗 Footer
+st.markdown('<p class="footer">Developed with ❤️ for smart agriculture</p>', unsafe_allow_html=True)
