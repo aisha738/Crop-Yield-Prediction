@@ -18,9 +18,6 @@ st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
 # App Title
 st.markdown("<h1 style='text-align: center; color: #4CAF50; font-size: 60px;'>🌱 Crop Yield Prediction</h1>", unsafe_allow_html=True)
 
-# Add an image (Optional: 1 of 2 images)
-st.image("farm1.jpg", use_column_width=True)  # Replace with actual image file
-
 st.subheader("Enter Input Parameters Below:")
 
 # User Input Form
@@ -49,6 +46,3 @@ if st.button('🚜 Predict Yield'):
         st.success(f'🌾 Estimated Yield: {prediction[0]:.2f} tons/ha')
     except Exception as e:
         st.error(f"Error: {e}")
-
-# Add another image (Optional: 2nd image)
-st.image("farm2.jpg", use_column_width=True)  # Replace with actual image file
