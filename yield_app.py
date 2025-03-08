@@ -1,10 +1,10 @@
 import streamlit as st
 import numpy as np
-import pickle
+import joblib
 
-# Load Model Using Pickle
-with open("crop_yield_pred.pkl", "rb") as file:
-    model = pickle.load(file)
+# Load Model Using joblib
+with open("crop_yield_pred.joblib", "rb") as file:
+    model = joblib.load(file)
 
 # Encoding Mapping
 region_mapping = {"North": 0, "South": 1, "East": 2, "West": 3}
