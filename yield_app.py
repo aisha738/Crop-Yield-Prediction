@@ -14,20 +14,20 @@ weather_mapping = {"Sunny": 0, "Rainy": 1, "Cloudy": 2}
 # Page Config
 st.set_page_config(page_title="Crop Yield Prediction", layout="centered")
 
-# Custom Styling
+# 🔥 **Force the Title to be the Biggest**
 st.markdown(
     """
     <style>
         .main-title { 
             color: #4CAF50; 
             text-align: center; 
-            font-size: 60px; /* Biggest Font Size */
+            font-size: 80px; /* MASSIVE TITLE */
             font-weight: bold; 
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .description {
             text-align: center;
-            font-size: 22px;
+            font-size: 26px;
             color: #666;
             margin-bottom: 20px;
         }
@@ -53,12 +53,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🌱 App Title (Biggest Font Size)
+# 🌱 **App Title (Biggest Font)**
 st.markdown('<p class="main-title">🌱 Crop Yield Prediction App</p>', unsafe_allow_html=True)
 st.markdown('<p class="description">Predict your crop yield based on key farming factors</p>', unsafe_allow_html=True)
 
-# 📊 User Inputs
-st.subheader("Input Parameters Below:")
+# 📊 **User Inputs**
+st.subheader("**Input Parameters Below:**")  # This will NOT be bigger than the title anymore
 
 col1, col2 = st.columns(2)
 
@@ -86,7 +86,7 @@ irrigation_encoded = 1 if irrigation_used == "Yes" else 0
 # Convert inputs to a NumPy array
 features = np.array([[region_encoded, soil_type_encoded, crop_encoded, rainfall, temperature, fertilizer_encoded, irrigation_encoded, weather_encoded, days_to_harvest]])
 
-# 🚜 Centered Predict Button
+# 🚜 **Centered Predict Button**
 if st.button('🚜 Predict Yield'):
     try:
         prediction = model.predict(features)
@@ -94,5 +94,5 @@ if st.button('🚜 Predict Yield'):
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
-# 🔗 Footer
+# 🔗 **Footer**
 st.markdown('<p class="footer">Developed with ❤️ for smart agriculture</p>', unsafe_allow_html=True)
